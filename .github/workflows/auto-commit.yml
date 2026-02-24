@@ -1,0 +1,33 @@
+name: Node Git Automation
+
+permissions:
+  contents: write
+
+on:
+  schedule:
+    - cron: "30 17 * * *"   # 11:00 PM IST
+  workflow_dispatch:
+
+jobs:
+  automate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Configure Git
+        run: |
+          git config user.name "farhan-saf7"
+          git config user.email "farhanazadshah7@gmail.com"
+
+      - name: Run automation script
+        run: node dailyCommit.js
